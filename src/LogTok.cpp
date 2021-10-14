@@ -3,6 +3,7 @@
 #include <iterator>
 #include <fstream>
 #include <future>
+#include <string>
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,12 +18,12 @@ extern "C" {
 #define NAME_OUT_FILE "rtids.txt"
 using namespace std;
 
-vector<long> vID;
+vector<string> vID;
 
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 {
 	ofstream out_file(NAME_OUT_FILE);
-	ostream_iterator<long> out_stream(out_file, "\n");
+	ostream_iterator<string> out_stream(out_file, "\n");
 	std::copy(vID.begin(), vID.end(), out_stream);
 
 	return FALSE;
@@ -56,11 +57,15 @@ int main()
 			SetConsoleCursorPosition(hStdout, coordScreen);
 			if (serialNumber > 0)
 			{
-				if (find(vID.begin(), vID.end(), serialNumber) == vID.end())
+
+				string sID = to_string(serialNumber);
+				unsigned int number_of_zeros = 10 - (unsigned int)sID.length();
+				sID.insert(0, number_of_zeros, '0');
+				if (find(vID.begin(), vID.end(), sID) == vID.end())
 				{
-					vID.push_back(serialNumber);
+					vID.push_back(sID);
 					cout << "\033[1;32m" << "Количество токенов " << vID.size() << "\033[0m \n";
-					copy(vID.begin(), vID.end(), ostream_iterator<long>(cout, "\n"));
+					copy(vID.begin(), vID.end(), ostream_iterator<string>(cout, "\n"));
 				}
 				else
 				{
