@@ -4,6 +4,8 @@
 #include <fstream>
 #include <future>
 #include <string>
+#include <chrono>
+#include <ctime>
 
 #ifdef __cplusplus
 extern "C" {
@@ -15,14 +17,27 @@ extern "C" {
 }
 #endif
 
-#define NAME_OUT_FILE "rtids.txt"
+#define NAME_OUT_FILE "rtids_"
 using namespace std;
 
 vector<string> vID;
 
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 {
-	ofstream out_file(NAME_OUT_FILE);
+
+	struct tm newtime;
+	__time64_t long_time;
+	char out[sizeof("2011-10-08T07:07:09Z")] = { 0 };
+
+	_time64(&long_time);
+	_localtime64_s(&newtime, &long_time);
+	strftime(out, sizeof("2011-10-08T07:07:09Z"), "%FT%TZ", &newtime);
+	std::string path(out);
+	path.replace(path.find(":"), 1, "-");
+	path.replace(path.find(":"), 1, "-");
+	path = NAME_OUT_FILE + path + ".txt";
+
+	ofstream out_file(path);
 	ostream_iterator<string> out_stream(out_file, "\n");
 	std::copy(vID.begin(), vID.end(), out_stream);
 
