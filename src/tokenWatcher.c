@@ -1,6 +1,9 @@
 ﻿
 #include "tokenWatcher.h"
-
+/// <summary>
+/// Функция осуществляет мониторинг подключения токенов
+/// </summary>
+/// <returns> - </returns>
 long monitorSlotEvent()
 {
 	CK_RV rv = CKR_OK;

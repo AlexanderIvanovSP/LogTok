@@ -21,7 +21,11 @@ extern "C" {
 using namespace std;
 
 vector<string> vID;
-
+/// <summary>
+/// Функция записывает лог файл при закрытиии приложения
+/// </summary>
+/// <param name="fdwCtrlType"> - </param>
+/// <returns> - </returns>
 BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 {
 
@@ -43,7 +47,10 @@ BOOL WINAPI CtrlHandler(DWORD fdwCtrlType)
 
 	return FALSE;
 }
-
+/// <summary>
+/// Главная функция приложения
+/// </summary>
+/// <returns> - </returns>
 int main()
 {
 
